@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+
+# Segredos: nunca versionar
+.env
+.env.*
+!.env.example
+Thumbs.db
+.DS_Store

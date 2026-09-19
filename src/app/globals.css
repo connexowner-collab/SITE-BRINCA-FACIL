@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bf-vermelho: #e91c23;
+  --color-bf-vermelho-escuro: #b8141a;
+  --color-bf-amarelo: #f8c01b;
+  --color-bf-amarelo-claro: #ffe27a;
+  --color-bf-azul-escuro: #082872;
+  --color-bf-noite: #061b52;
+  --color-bf-azul: #0867d6;
+  --color-bf-ciano: #3dd0f6;
+  --color-bf-creme: #fff8e7;
+
+  --font-display: "Fredoka Variable", "Fredoka", ui-rounded, system-ui, sans-serif;
+  --font-sans: "Nunito Variable", "Nunito", system-ui, sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-lento: float 9s ease-in-out infinite;
+  --animate-gira: gira 18s linear infinite;
+  --animate-pulsa: pulsa 2.4s ease-in-out infinite;
+  --animate-entra: entra 0.45s ease-out both;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+    50% { transform: translateY(-14px) rotate(1.5deg); }
+  }
+  @keyframes gira {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes pulsa {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.12); opacity: 1; }
+  }
+  @keyframes entra {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  @apply bg-bf-creme font-sans text-bf-azul-escuro antialiased;
+}
+
+h1, h2, h3, h4 {
+  @apply font-display;
+}
+
+/* ---------- botões ---------- */
+.btn {
+  @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 font-display text-lg font-semibold transition duration-150 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-bf-ciano/70 disabled:cursor-not-allowed disabled:opacity-60;
+}
+.btn-vermelho {
+  @apply bg-bf-vermelho text-white shadow-[0_5px_0_0_#b8141a] hover:-translate-y-0.5 hover:shadow-[0_7px_0_0_#b8141a] active:translate-y-1 active:shadow-[0_1px_0_0_#b8141a];
+}
+.btn-amarelo {
+  @apply bg-bf-amarelo text-bf-azul-escuro shadow-[0_5px_0_0_#c99a08] hover:-translate-y-0.5 hover:shadow-[0_7px_0_0_#c99a08] active:translate-y-1 active:shadow-[0_1px_0_0_#c99a08];
+}
+.btn-verde {
+  @apply bg-[#128c4a] text-white shadow-[0_5px_0_0_#0b5f31] hover:-translate-y-0.5 hover:shadow-[0_7px_0_0_#0b5f31] active:translate-y-1 active:shadow-[0_1px_0_0_#0b5f31];
+}
+.btn-contorno {
+  @apply border-2 border-white/80 text-white hover:bg-white/15;
+}
+
+/* ---------- campos de formulário ---------- */
+.campo {
+  @apply w-full rounded-2xl border-2 border-bf-azul/20 bg-white px-4 py-3 text-base text-bf-azul-escuro placeholder:text-bf-azul-escuro/45 transition focus:border-bf-azul focus:outline-none focus:ring-4 focus:ring-bf-ciano/40;
+}
+.rotulo {
+  @apply mb-1.5 block text-sm font-bold text-bf-azul-escuro;
+}
+
+/* ---------- fundo do hero ---------- */
+.hero-fundo {
+  background: radial-gradient(120% 90% at 72% 18%, #0867d6 0%, #082872 55%, #061b52 100%);
+}
+.hero-raios {
+  background: repeating-conic-gradient(from 0deg at 72% 46%, rgb(255 255 255 / 0.08) 0 5deg, transparent 5deg 16deg);
+  -webkit-mask-image: radial-gradient(circle at 72% 46%, #000 0%, transparent 72%);
+  mask-image: radial-gradient(circle at 72% 46%, #000 0%, transparent 72%);
+}
+
+/* ---------- aparecer ao rolar ---------- */
+.revelar {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.revelar.visivel {
+  opacity: 1;
+  transform: none;
+}
+@media (scripting: none) {
+  .revelar { opacity: 1; transform: none; }
+}
+
+/* ---------- confete ---------- */
+.confete {
+  position: absolute;
+  top: -24px;
+  border-radius: 2px;
+  animation: cair linear forwards;
+}
+@keyframes cair {
+  to { transform: translateY(460px) rotate(560deg); opacity: 0.85; }
+}
+
+/* ---------- respeita quem prefere menos movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .revelar { opacity: 1; transform: none; }
+}
