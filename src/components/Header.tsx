@@ -2,7 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import WhatsAppButton from "./WhatsAppButton";
 
-export default function Header({ whatsapp, mensagem }: { whatsapp: string; mensagem: string }) {
+type Categoria = { nome: string; slug: string };
+
+export default function Header({
+  whatsapp,
+  mensagem,
+  categorias = [],
+}: {
+  whatsapp: string;
+  mensagem: string;
+  categorias?: Categoria[];
+}) {
+  const menu = categorias.slice(0, 5);
   return (
     <header className="sticky top-0 z-40 border-b-4 border-bf-amarelo bg-bf-azul-escuro/95 text-white backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5">
@@ -13,8 +24,16 @@ export default function Header({ whatsapp, mensagem }: { whatsapp: string; mensa
           </span>
         </Link>
 
-        <nav aria-label="Principal" className="hidden items-center gap-6 font-display text-lg font-medium sm:flex">
-          <Link href="/#catalogo" className="hover:text-bf-amarelo">Brinquedos</Link>
+        <nav aria-label="Principal" className="hidden items-center gap-5 font-display text-lg font-medium lg:flex">
+          {menu.length > 0 ? (
+            menu.map((c) => (
+              <Link key={c.slug} href={`/#cat-${c.slug}`} className="hover:text-bf-amarelo">
+                {c.nome}
+              </Link>
+            ))
+          ) : (
+            <Link href="/#catalogo" className="hover:text-bf-amarelo">Catálogo</Link>
+          )}
           <Link href="/#como-funciona" className="hover:text-bf-amarelo">Como funciona</Link>
         </nav>
 
@@ -24,7 +43,7 @@ export default function Header({ whatsapp, mensagem }: { whatsapp: string; mensa
           </WhatsAppButton>
         ) : (
           <Link href="/#catalogo" className="btn btn-amarelo !px-4 !py-2 !text-base">
-            Ver brinquedos
+            Ver catálogo
           </Link>
         )}
       </div>

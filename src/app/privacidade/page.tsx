@@ -30,8 +30,8 @@ export default function Privacidade() {
         <h2 className="text-2xl font-bold">Para que usamos</h2>
         <p>
           Usamos esses dados apenas para analisar seu pedido, confirmar a disponibilidade, entrar em contato pelo
-          WhatsApp e, se a locação for fechada, executar o serviço. Você pode acompanhar o pedido por um link
-          privado gerado no envio.
+          WhatsApp e, se a locação for fechada, executar o serviço. O acompanhamento do pedido é feito pelo
+          WhatsApp, informando o seu número de protocolo.
         </p>
       </section>
 

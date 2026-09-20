@@ -35,6 +35,7 @@ export type ConfigSite = {
   whatsapp: string;
   modeloCotacao: string;
   mensagemGeral: string;
+  mensagemCombo: string;
   heroTitulo: string;
   heroSubtitulo: string;
 };

@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Estrela } from "./Icones";
 import WhatsAppButton from "./WhatsAppButton";
 
-type Props = { titulo: string; subtitulo: string; whatsapp: string; mensagem: string };
+type Props = { titulo: string; subtitulo: string; whatsapp: string; mensagemCombo: string };
 
-export default function Hero({ titulo, subtitulo, whatsapp, mensagem }: Props) {
+export default function Hero({ titulo, subtitulo, whatsapp, mensagemCombo }: Props) {
   return (
     <section className="hero-fundo relative isolate overflow-hidden text-white">
       <div className="hero-raios pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
@@ -29,9 +29,11 @@ export default function Hero({ titulo, subtitulo, whatsapp, mensagem }: Props) {
 
           <div className="mt-7 flex flex-wrap gap-3">
             <Link href="/#catalogo" className="btn btn-amarelo">
-              Ver brinquedos
+              Ver catálogo
             </Link>
-            <WhatsAppButton numero={whatsapp} mensagem={mensagem} className="btn btn-contorno" />
+            <WhatsAppButton numero={whatsapp} mensagem={mensagemCombo} className="btn btn-contorno">
+              Cotação personalizada
+            </WhatsAppButton>
           </div>
 
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-white/90">

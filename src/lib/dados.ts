@@ -2,7 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { criarClienteServidor, supabaseConfigurado } from "./supabase";
 import { soDigitos } from "./formatar";
-import type { Anuncio, Brinquedo, ConfigSite, CotacaoConsultada } from "./tipos";
+import type { Anuncio, Brinquedo, Categoria, ConfigSite } from "./tipos";
 
 const CAMPOS_BRINQUEDO =
   "id, categoria_id, nome, slug, descricao, inclui, preco, preco_referencia, duracao_padrao_min, " +
@@ -16,7 +16,7 @@ function normalizar(b: Brinquedo): Brinquedo {
   return { ...b, inclui: b.inclui ?? [], brinquedo_imagens: imagens };
 }
 
-export async function listarBrinquedos(): Promise<Brinquedo[]> {
+export const listarBrinquedos = cache(async (): Promise<Brinquedo[]> => {
   if (!supabaseConfigurado()) return [];
   const { data, error } = await criarClienteServidor()
     .from("brinquedos")
@@ -30,7 +30,7 @@ export async function listarBrinquedos(): Promise<Brinquedo[]> {
     return [];
   }
   return ((data ?? []) as unknown as Brinquedo[]).map(normalizar);
-}
+});
 
 export async function buscarBrinquedo(slug: string): Promise<Brinquedo | null> {
   if (!supabaseConfigurado()) return null;
@@ -46,6 +46,20 @@ export async function buscarBrinquedo(slug: string): Promise<Brinquedo | null> {
   }
   return data ? normalizar(data as unknown as Brinquedo) : null;
 }
+
+export const listarCategorias = cache(async (): Promise<Categoria[]> => {
+  if (!supabaseConfigurado()) return [];
+  const { data, error } = await criarClienteServidor()
+    .from("categorias")
+    .select("id, nome, slug, ordem")
+    .order("ordem")
+    .order("nome");
+  if (error) {
+    console.error("[listarCategorias]", error.message);
+    return [];
+  }
+  return (data ?? []) as Categoria[];
+});
 
 export async function listarAnuncios(): Promise<Anuncio[]> {
   if (!supabaseConfigurado()) return [];
@@ -67,8 +81,10 @@ const CONFIG_PADRAO: ConfigSite = {
   modeloCotacao:
     "Olá! Gostaria de uma cotação do {produto} para {data}, das {hora_inicio} às {hora_fim}. Protocolo: {protocolo}.",
   mensagemGeral: "Olá! Vim pelo site da BrincaFácil e gostaria de mais informações.",
+  mensagemCombo:
+    "Olá! Quero montar uma cotação personalizada para a minha festa (combo sob medida). Pode me ajudar?",
   heroTitulo: "A festa mais divertida começa aqui",
-  heroSubtitulo: "Escolha o brinquedo, veja as datas livres e peça sua cotação em um minuto.",
+  heroSubtitulo: "Escolha o que quiser, veja as datas livres e peça sua cotação em um minuto.",
 };
 
 /** cache() evita consultar a configuração duas vezes na mesma visita (layout + página). */
@@ -90,20 +106,8 @@ export const carregarConfig = cache(async (): Promise<ConfigSite> => {
     whatsapp: numero.length >= 12 ? numero : "",
     modeloCotacao: texto("modelo_mensagem_cotacao", CONFIG_PADRAO.modeloCotacao),
     mensagemGeral: texto("mensagem_whatsapp_geral", CONFIG_PADRAO.mensagemGeral),
+    mensagemCombo: texto("mensagem_cotacao_personalizada", CONFIG_PADRAO.mensagemCombo),
     heroTitulo: texto("hero_titulo", CONFIG_PADRAO.heroTitulo),
     heroSubtitulo: texto("hero_subtitulo", CONFIG_PADRAO.heroSubtitulo),
   };
 });
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-export async function consultarCotacao(token: string): Promise<CotacaoConsultada | null> {
-  if (!supabaseConfigurado() || !UUID.test(token)) return null;
-  const { data, error } = await criarClienteServidor().rpc("consultar_cotacao", { p_token: token });
-  if (error) {
-    console.error("[consultarCotacao]", error.message);
-    return null;
-  }
-  const linha = Array.isArray(data) ? data[0] : data;
-  return linha ? (linha as CotacaoConsultada) : null;
-}

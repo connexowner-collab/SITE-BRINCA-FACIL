@@ -4,7 +4,8 @@ import "@fontsource-variable/nunito";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { carregarConfig } from "@/lib/dados";
+import { carregarConfig, listarBrinquedos, listarCategorias } from "@/lib/dados";
+import { secoesDoCatalogo } from "@/lib/catalogo";
 import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -43,11 +44,18 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const config = await carregarConfig();
+  const [config, brinquedos, categorias] = await Promise.all([
+    carregarConfig(),
+    listarBrinquedos(),
+    listarCategorias(),
+  ]);
+  // Só entram no menu as categorias que têm itens publicados.
+  const menu = secoesDoCatalogo(brinquedos, categorias).map((s) => ({ nome: s.nome, slug: s.slug }));
+
   return (
     <html lang="pt-BR">
       <body className="min-h-screen">
-        <Header whatsapp={config.whatsapp} mensagem={config.mensagemGeral} />
+        <Header whatsapp={config.whatsapp} mensagem={config.mensagemGeral} categorias={menu} />
         <main>{children}</main>
         <Footer whatsapp={config.whatsapp} mensagem={config.mensagemGeral} />
       </body>
