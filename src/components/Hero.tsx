@@ -48,11 +48,11 @@ export default function Hero({ titulo, subtitulo, whatsapp, mensagemCombo }: Pro
           <Image
             src="/logo.png"
             alt="BrincaFácil — brinquedos, buffet e decoração para festas"
-            width={1308}
-            height={1013}
+            width={630}
+            height={630}
             loading="eager"
             fetchPriority="high"
-            className="relative mx-auto h-auto w-full max-w-lg animate-float drop-shadow-[0_18px_30px_rgb(0_0_0/0.35)]"
+            className="relative mx-auto h-auto w-full max-w-sm animate-float drop-shadow-[0_18px_30px_rgb(0_0_0/0.35)]"
           />
         </div>
       </div>

@@ -18,7 +18,7 @@ export default function Header({
     <header className="sticky top-0 z-40 border-b-4 border-bf-amarelo bg-bf-azul-escuro/95 text-white backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5">
         <Link href="/" className="flex items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-bf-ciano/70" aria-label="BrincaFácil, página inicial">
-          <Image src="/mascote.png" alt="" width={48} height={48} className="h-11 w-11 object-contain drop-shadow" />
+          <Image src="/logo.png" alt="" width={48} height={48} className="h-11 w-11 object-contain drop-shadow" />
           <span className="font-display text-2xl font-bold leading-none tracking-tight">
             Brinca<span className="text-bf-amarelo">Fácil</span>
           </span>
