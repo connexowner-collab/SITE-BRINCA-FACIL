@@ -44,15 +44,15 @@ export default function Hero({ titulo, subtitulo, whatsapp, mensagemCombo }: Pro
         </div>
 
         <div className="relative mx-auto w-full max-w-sm md:max-w-none">
-          <div className="absolute inset-[8%] rounded-full bg-bf-ciano/30 blur-3xl" aria-hidden="true" />
+          <div className="absolute inset-[10%] rounded-full bg-bf-ciano/30 blur-3xl" aria-hidden="true" />
           <Image
-            src="/mascote.png"
-            alt="Mascote da BrincaFácil: um carrinho vermelho sorridente com asas amarelas"
-            width={512}
-            height={512}
+            src="/logo.png"
+            alt="BrincaFácil — brinquedos, buffet e decoração para festas"
+            width={1308}
+            height={1013}
             loading="eager"
             fetchPriority="high"
-            className="relative mx-auto h-auto w-full max-w-md animate-float drop-shadow-[0_18px_30px_rgb(0_0_0/0.35)]"
+            className="relative mx-auto h-auto w-full max-w-lg animate-float drop-shadow-[0_18px_30px_rgb(0_0_0/0.35)]"
           />
         </div>
       </div>
